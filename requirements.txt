@@ -1,0 +1,1 @@
+ray[default]==1.13.0 #Set the version to match latest nersc pytorch image
