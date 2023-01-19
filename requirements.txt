@@ -1,1 +1,1 @@
-ray[default]==1.13.0 #Set the version to match latest nersc pytorch image
+ray[default]==2.0.0 #Set the version to match nersc/pytorch:ngc-22.09-v0
