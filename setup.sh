@@ -16,7 +16,7 @@ CONDA_BIN=mamba
 
 ## Create
 echo '<> Building new env...'
-$CONDA_BIN create -n $CONDA_RAY_ENV python=3.8.13 -y ipykernel #Set the version to match latest nersc pytorch image
+$CONDA_BIN create -n $CONDA_RAY_ENV ipykernel python=3.8.13 -y #Set the version to match latest nersc pytorch image
 
 ## Activate
 echo '<> Activating conda env'
