@@ -13,7 +13,6 @@
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 CMD_ARGS=$1
 EXTRA_ARGS="--ntasks-per-node=1"
-export TMP_RAY_ADDRESS_FILE=$2
 
 #check if cori or PM
 if [[ $HOSTNAME == *"cori"* ]]; then
