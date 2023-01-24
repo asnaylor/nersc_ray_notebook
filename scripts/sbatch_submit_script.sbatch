@@ -24,7 +24,7 @@ ip_head=$node_1_ip:$RAY_HEAD_PORT
 RAY_NODE_ADDRESS=$ip_head
 export RAY_NODE_ADDRESS
 ip_address=($(hostname -i))
-echo "[slurm] - IP Head: $RAY_NODE_ADDRESS | ${ip_address[-1]}:$RAY_HEAD_PORT"
+echo "[slurm] - IP Head: $RAY_NODE_ADDRESS | ${ip_address[-1]}"
 RAY_SCRATCH_FOLDER=$SCRATCH/ray_cluster
 mkdir -p $RAY_SCRATCH_FOLDER
 echo ${ip_address[-1]} > ${RAY_SCRATCH_FOLDER}/head_node_address
