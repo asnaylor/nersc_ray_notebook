@@ -11,8 +11,8 @@
 
 
 ## Setup
-module load python
-conda activate ray_ml_env
+#module load python
+#conda activate ray_ml_env
 
 nodes=$(scontrol show hostnames $SLURM_JOB_NODELIST) # Getting the node names
 nodes_array=( $nodes )
@@ -30,8 +30,8 @@ echo $(hostname -I) > ${RAY_SCRATCH_FOLDER}/head_node_address
 
 ## Start ray Head
 echo "[slurm] - Starting ray HEAD"
-srun --nodes=1 --ntasks=1 -w $node_1 ray start --head --node-ip-address=$node_1_ip --port=$RAY_HEAD_PORT --block &
-#srun --nodes=1 --ntasks=1 -w $node_1 shifter ray start --head --node-ip-address=$node_1_ip --port=$RAY_HEAD_PORT --block &
+#srun --nodes=1 --ntasks=1 -w $node_1 ray start --head --node-ip-address=$node_1_ip --port=$RAY_HEAD_PORT --block &
+srun --nodes=1 --ntasks=1 -w $node_1 shifter ray start --head --node-ip-address=$node_1_ip --port=$RAY_HEAD_PORT --block &
 
 sleep 30 ##needed?
 
@@ -42,8 +42,8 @@ for ((  i=1; i<=$worker_num; i++ ))
 do
   node_i=${nodes_array[$i]}
   echo "    - $i at $node_i"
-  srun --nodes=1 --ntasks=1 -w $node_i ray start --address $RAY_NODE_ADDRESS --block &
-  #srun --nodes=1 --ntasks=1 -w $node_i shifter ray start --address $RAY_NODE_ADDRESS --block &
+  #srun --nodes=1 --ntasks=1 -w $node_i ray start --address $RAY_NODE_ADDRESS --block &
+  srun --nodes=1 --ntasks=1 -w $node_i shifter ray start --address $RAY_NODE_ADDRESS --block &
 done
 
 sleep infinity
