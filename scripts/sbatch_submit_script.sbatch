@@ -26,7 +26,7 @@ export RAY_NODE_ADDRESS
 echo "[slurm] - IP Head: $RAY_NODE_ADDRESS"
 RAY_SCRATCH_FOLDER=$SCRATCH/ray_cluster
 mkdir -p $RAY_SCRATCH_FOLDER
-echo $RAY_NODE_ADDRESS > ${RAY_SCRATCH_FOLDER}/head_node_address
+echo $(hostname -I) > ${RAY_SCRATCH_FOLDER}/head_node_address
 
 ## Start ray Head
 echo "[slurm] - Starting ray HEAD"
