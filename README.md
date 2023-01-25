@@ -4,13 +4,14 @@ Using Ray to perform hyperparameter optimization for an ML model all within a [J
 ## Goals
 
 - ~~Create notebook~~ [x]
-- Deploy and connect Ray cluster from notebook
-    + cori
-    + pm
-- Sucessfully test the Ray cluster from notebook
+- ~~Deploy and connect Ray cluster from notebook~~
+    + cori [x]
+    + pm [x]
+- ~~Sucessfully test the Ray cluster from notebook~~
 - Look at [cori-gpu](https://docs-dev.nersc.gov/cgpu/)
 - Try on PM gpus
-- Test Ray tune
+- Test Ray tune/test proper Ray ML example
+- Neaten code/setup for submission
 
 ## Setup
 Run `source setup.sh` to create a conda environment with RAY and other require libraries installed.
