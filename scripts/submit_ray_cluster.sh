@@ -22,6 +22,5 @@ else
 fi
 
 #Run sbatch code and then get cluster address
-echo "<> Submiting Ray cluster job"
 sbatch $CMD_ARGS $EXTRA_ARGS $MACHINE_ARGS $SCRIPT_DIR/sbatch_submit_script.sbatch
 
