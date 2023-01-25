@@ -20,3 +20,5 @@ Run `source setup.sh` to create a conda environment with RAY and other require l
 ---
 
 # Notes
+
+- Check out using ray-lightning 
