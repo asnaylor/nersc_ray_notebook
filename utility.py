@@ -42,6 +42,6 @@ def cluster_summary():
     print("---------------")
     print("Nodes: {:0.0f}".format(len([i for i in node_resources if 'node' in i])))
     print("CPU:   {:0.0f}".format(node_resources['CPU']))
-    print("GPU:   {:0.0f}".format(node_resources['GPU']))
+    print("GPU:   {:0.0f}".format(node_resources.get('GPU', 0)))
     print("RAM:   {}".format(convert_size(node_resources['memory'])))
     return
