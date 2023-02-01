@@ -17,7 +17,7 @@ head_node_hostname=${nodes_array[0]}
 RAY_HEAD_PORT=6379
 RAY_NODE_ADDRESS=$head_node_hostname:$RAY_HEAD_PORT
 export RAY_NODE_ADDRESS
-head_node_ip_address=$(python3 -c "import socket; print('python socket: {}'.format(socket.gethostbyname('$(hostname)')))")
+head_node_ip_address=$(python3 -c "import socket; print(socket.gethostbyname('$(hostname)'))")
 
 echo "[slurm] - IP Head: $RAY_NODE_ADDRESS | $head_node_ip_address"
 RAY_SCRATCH_FOLDER=$SCRATCH/ray_cluster
