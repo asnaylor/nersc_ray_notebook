@@ -4,28 +4,73 @@
 # 
 # Title: setup.sh
 # Author: Andrew Naylor
-# Date: Jan 23
-# Brief: setup conda environment with ray
+# Date: Feb 23
+# Brief: Setup jupyter kernel using container image
 #
 #=========================================
 
+
 ## Variables
-CONDA_RAY_ENV=ray_ml_env
-module load python
+KERNEL_NAME=''
+PYTHON_BIN_PATH='/usr/bin/python'
 
-## Create
-echo '<> Building new env...'
-mamba create -n $CONDA_RAY_ENV ipykernel python=3.8.13 -y #Set the version to match nersc/pytorch:ngc-22.09-v0
+## Parse Args
+usage() {                                 
+  echo "Usage: $0 <image-name> [-n <kernel-name>] [-b <python-binary-path>]" 1>&2 
+}
 
-## Activate
-echo '<> Activating conda env'
-conda activate $CONDA_RAY_ENV
+exit_abnormal() { 
+  usage
+  exit 1
+}
 
-echo '<> Install libraries via pip'
-python3 -m pip install -r requirements.txt
+if [ $# -lt 1 ]; then
+    echo "Error: script requires image name"
+    exit_abnormal
+fi
 
-## Setup for JupyterHub
-echo '<> Installing kernel in JupyterHub'
-python3 -m ipykernel install --user --name $CONDA_RAY_ENV --display-name $CONDA_RAY_ENV
+IMAGE_NAME=$1; shift
 
-echo "<!> Setup complete, to activate conda env: conda activate $CONDA_RAY_ENV"
+while getopts ":n:b:" options; do         
+  case "${options}" in                    
+    n)                                    
+      KERNEL_NAME=${OPTARG}
+      ;;
+    b)                                    
+      PYTHON_BIN_PATH=${OPTARG}
+      ;;
+    :)
+      echo "Error: -${OPTARG} requires an argument."
+      exit_abnormal                       # Exit abnormally.
+      ;;
+    *)                                    # If unknown (any other) option:
+      exit_abnormal                       # Exit abnormally.
+      ;;
+  esac
+done
+
+
+## Kernel variables 
+if [ -z "$KERNEL_NAME" ]; then
+    JUPYTER_KERNEL=$(echo $IMAGE_NAME | sed -r 's#[/:]+#_#g')
+else
+    JUPYTER_KERNEL=$KERNEL_NAME
+fi
+JUPYTER_KERNEL_FOLDER=$HOME/.local/share/jupyter/kernels/$JUPYTER_KERNEL/
+CUSTOM_PYTHONUSERBASE=$HOME/.local/perlmutter/$JUPYTER_KERNEL
+
+## Copy files across
+echo '<> Create relevant folders and files...'
+mkdir -p $JUPYTER_KERNEL_FOLDER
+cp scripts/kernel.json $JUPYTER_KERNEL_FOLDER
+sed -i -e "s#CUSTOM_KERNEL_NAME#$JUPYTER_KERNEL#g" $JUPYTER_KERNEL_FOLDER/kernel.json
+sed -i -e "s#CUSTOM_SHIFTER_IMAGE#$IMAGE_NAME#g" $JUPYTER_KERNEL_FOLDER/kernel.json
+sed -i -e "s#CUSTOM_PYTHON_BIN#$CUSTOM_PYTHON_BIN#g" $JUPYTER_KERNEL_FOLDER/kernel.json
+sed -i -e "s#CUSTOM_PYTHONUSERBASE#$CUSTOM_PYTHONUSERBASE#g" $JUPYTER_KERNEL_FOLDER/kernel.json
+
+## Install extra libraries
+echo '<> Installing extra libraries via pip'
+mkdir -p $CUSTOM_PYTHONUSERBASE
+shifter --image=$IMAGE_NAME --env PYTHONUSERBASE=$CUSTOM_PYTHONUSERBASE python3 -m pip install -r scripts/requirements.txt --user
+
+echo "<!> Setup complete: $JUPYTER_KERNEL Jupyter kernel created"
