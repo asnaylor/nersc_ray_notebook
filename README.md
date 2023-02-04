@@ -11,7 +11,8 @@ Using Ray to perform hyperparameter optimization for an ML model all within a [J
 - Try on PM gpus
 - Try on [cori-gpus](https://docs-dev.nersc.gov/cgpu/) (not a priority, focus on PM)
 - Get dashboard working in jupyter-hub
-- Test Ray tune/test proper Ray ML example
+- Test Ray tune/test proper Ray ML example [x]
+- get tensorboard working [x]
 - ~~Neaten code/setup for submission~~
 
 ## Setup
