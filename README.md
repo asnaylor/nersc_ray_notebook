@@ -11,14 +11,3 @@ These example [notebooks](notebooks) will cover how different machine learning f
 
 > **Note**
 > To setup the environment for each notebook, execute on command line: `./setup.sh <exercise-number>` (e.g `./setup.sh 1a`).
-
----
-
-## Goals
-
-- Try on [cori-gpus](https://docs-dev.nersc.gov/cgpu/)
-- move to nersc_cluster_deploy
-    - Get dashboard working in jupyter-hub/nersc_cluster_deploy
-    - Test on cori (need a solution for getting the ip-address [possibly ssh to job & `hostname -I`])
-- update setup script
-- restructure repo

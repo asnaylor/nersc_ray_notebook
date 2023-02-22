@@ -82,7 +82,7 @@ case $EX_NUM in
     echo "<> Setting up Ex1: PyTorch MNIST Example: Ray + Horovod"
     setup_shifter_kernel nersc/pytorch:ngc-22.09-v0 /opt/conda/bin/python
     setup_shifter_hvd_pytorch nersc/pytorch:ngc-22.09-v0
-    ;;
+    ;; #TO-DO: Write a check to see if the correct folders already exist and then skip
 
   *)
     echo "Not a valid exercise number..."
