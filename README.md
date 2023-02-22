@@ -1,37 +1,24 @@
 # nersc_ray_notebook
-Using Ray to perform hyperparameter optimization for an ML model all within a Jupyter Notebook. 
+Using Ray to perform hyperparameter optimization for an ML model all within a Jupyter Notebook. This repo utilises the [`nersc_cluster_deploy`](https://github.com/asnaylor/nersc_cluster_deploy) python library to create the Ray clusters easily via the SF API all within a Jupyter Notebook.
+ 
+## Tutorials
 
-## Goals
+These example [notebooks](notebooks) will cover how different machine learning frameworks and codes.
 
-- ~~Create notebook~~ [x]
-- ~~Deploy and connect Ray cluster from notebook~~
-    + cori [x]
-    + pm [x]
-- ~~Sucessfully test the Ray cluster from notebook~~
-- Try on PM gpus
-- Try on [cori-gpus](https://docs-dev.nersc.gov/cgpu/) (not a priority, focus on PM)
-- Get dashboard working in jupyter-hub
-- ~~Test Ray tune/test proper Ray ML example~~ [x]
-- ~~get tensorboard working ~~ [x]
-- ~~Neaten code/setup for submission~~
-- ~~Move to shifter~~[x]
-- Move to SFAPI
-- Move to Jinja2
+|     | Notebook | Description |
+| :-- | :----- | :---------- |
+| 1  | [PyTorch MNIST Example: Ray + Horovod](notebooks/ex_01_pytorch_ray_hvd.ipynb) | Deploying a Ray cluster via shifter in order to run Ray with Horovod. |
 
-## Setup
-Use the script provided to setup a Jupyter kernel for a specified shifter image:
-
-```bash
-./setup.sh <image-name> [-n <kernel-name>] [-b <python-binary-path>]`
-```
-
-
-## Examples
-
-The [notebooks](notebooks) folder contains a set of example notebooks. See the [Getting Started](getting_started.ipynb) notebook
+> **Note**
+> To setup the environment for each notebook, execute on command line: `./setup.sh <exercise-number>` (e.g `./setup.sh 1a`).
 
 ---
 
-# Notes
+## Goals
 
-- Check out using ray-lightning 
+- Try on [cori-gpus](https://docs-dev.nersc.gov/cgpu/)
+- move to nersc_cluster_deploy
+    - Get dashboard working in jupyter-hub/nersc_cluster_deploy
+    - Test on cori (need a solution for getting the ip-address [possibly ssh to job & `hostname -I`])
+- update setup script
+- restructure repo
