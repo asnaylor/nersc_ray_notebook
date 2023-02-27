@@ -11,12 +11,12 @@
 
 ## Parse Args
 usage() {                                 
-  echo "Usage: source $0 <Exercise Number> [-f]" 1>&2 
+    echo "Usage: source setup.sh <Exercise Number> [-f]" 1>&2 
 }
 
 exit_abnormal() { 
-  usage
-  kill -INT $$
+    usage
+    kill -INT $$
 }
 
 if [ $# -lt 1 ]; then
@@ -51,6 +51,12 @@ setup_env(){
     fi
 }
 
+shifter_ml_image(){
+    shifter --image=$IMAGE_NAME --module=gpu,nccl-2.15 \
+            --env PYTHONUSERBASE=$CUSTOM_PYTHONUSERBASE \
+            "$@"
+}
+
 setup_shifter_kernel(){
     CUSTOM_PYTHON_BIN=$1
     
@@ -76,7 +82,12 @@ setup_shifter_kernel(){
 }
 
 setup_shifter_hvd_pytorch(){
-  #check if horovod installed
+    #check if horovod installed
+    if shifter_ml_image python -m pip freeze | grep -q horovod
+    then  
+      echo "<!> horovod is already setup..."
+      return
+    fi
 
     shifter --image=$IMAGE_NAME --module=gpu,nccl-2.15 \
             --env PYTHONUSERBASE=$CUSTOM_PYTHONUSERBASE \
@@ -86,12 +97,6 @@ setup_shifter_hvd_pytorch(){
             --env HOROVOD_WITH_PYTORCH=1 \
             python3 -m pip install horovod[pytorch]
 
-}
-
-shifter_ml_image(){
-  shifter --image=$IMAGE_NAME --module=gpu,nccl-2.15 \
-          --env PYTHONUSERBASE=$CUSTOM_PYTHONUSERBASE \
-          "$@"
 }
 
 
