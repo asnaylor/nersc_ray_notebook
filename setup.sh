@@ -43,7 +43,7 @@ setup_env(){
     JUPYTER_KERNEL_FOLDER=$HOME/.local/share/jupyter/kernels/$JUPYTER_KERNEL/
     CUSTOM_PYTHONUSERBASE=$HOME/.local/perlmutter/$JUPYTER_KERNEL
 
-    if [ "$2" == "-f" ]
+    if [ "$2" == "true" ]
     then
       echo "<!> Force clearing PYTHONUSERBASE + kernel.json"
       rm -rf $CUSTOM_PYTHONUSERBASE
@@ -135,5 +135,3 @@ case $EX_NUM in
 esac
 
 echo "<> Setup complete"
-
-#function for doing pip updates etc. - probably wrapper around shifter func with correct setup
