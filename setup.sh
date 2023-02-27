@@ -120,6 +120,13 @@ case $EX_NUM in
     shifter_ml_image python -m pip install "ray[air]==2.3.0"
     ;;
 
+  3)
+    echo "<> Setting up Ex3: Tuning Hyperparameters of a Distributed TensorFlow Model using Ray Train & Tune"
+    setup_env nersc/tensorflow:ngc-22.09-tf2-v0 $FORCE_FLAG
+    setup_shifter_kernel /usr/bin/python
+    shifter_ml_image python -m pip install "ray[air]==2.3.0"
+    ;;
+
   *)
     echo "Not a valid exercise number..."
     echo $EX_NUM
