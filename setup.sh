@@ -11,7 +11,7 @@
 
 ## Parse Args
 usage() {                                 
-  echo "Usage: $0 <Exercise Number>" 1>&2 
+  echo "Usage: $0 <Exercise Number> [-f]" 1>&2 
 }
 
 exit_abnormal() { 
@@ -37,12 +37,28 @@ setup_conda() {
     source deactivate
 }
 
-setup_shifter_kernel(){
+setup_env(){
     IMAGE_NAME=$1
-    CUSTOM_PYTHON_BIN=$2
     JUPYTER_KERNEL=$(echo $IMAGE_NAME | sed -r 's#[/:]+#_#g')
     JUPYTER_KERNEL_FOLDER=$HOME/.local/share/jupyter/kernels/$JUPYTER_KERNEL/
     CUSTOM_PYTHONUSERBASE=$HOME/.local/perlmutter/$JUPYTER_KERNEL
+
+    if [ "$2" == "-f" ]
+    then
+      echo "<!> Force clearing PYTHONUSERBASE + kernel.json"
+      rm -rf $CUSTOM_PYTHONUSERBASE
+      rm -rf $JUPYTER_KERNEL_FOLDER
+    fi
+}
+
+setup_shifter_kernel(){
+    CUSTOM_PYTHON_BIN=$1
+    
+    #check folder exists
+    if [ -d "$JUPYTER_KERNEL_FOLDER" ]; then
+      echo "<!> $JUPYTER_KERNEL is alread setup..."
+      return
+    fi
 
     ## Copy files across
     mkdir -p $JUPYTER_KERNEL_FOLDER
@@ -54,15 +70,13 @@ setup_shifter_kernel(){
 
     ## Install library
     mkdir -p $CUSTOM_PYTHONUSERBASE
-    shifter --image=$IMAGE_NAME --env PYTHONUSERBASE=$CUSTOM_PYTHONUSERBASE \
+    shifter --image=$IMAGE_NAME --module=gpu,nccl-2.15 \
+            --env PYTHONUSERBASE=$CUSTOM_PYTHONUSERBASE \
             python3 -m pip install git+https://github.com/asnaylor/nersc_cluster_deploy.git --user
 }
 
 setup_shifter_hvd_pytorch(){
-    IMAGE_NAME=$1
-    JUPYTER_KERNEL=$(echo $IMAGE_NAME | sed -r 's#[/:]+#_#g')
-    JUPYTER_KERNEL_FOLDER=$HOME/.local/share/jupyter/kernels/$JUPYTER_KERNEL/
-    CUSTOM_PYTHONUSERBASE=$HOME/.local/perlmutter/$JUPYTER_KERNEL
+  #check if horovod installed
 
     shifter --image=$IMAGE_NAME --module=gpu,nccl-2.15 \
             --env PYTHONUSERBASE=$CUSTOM_PYTHONUSERBASE \
@@ -74,15 +88,32 @@ setup_shifter_hvd_pytorch(){
 
 }
 
+shifter_ml_image(){
+  shifter --image=$IMAGE_NAME --module=gpu,nccl-2.15 \
+          --env PYTHONUSERBASE=$CUSTOM_PYTHONUSERBASE \
+          "$@"
+}
+
+
 EX_NUM=$1
+if [ "$2" == "-f" ]; then FORCE_FLAG=true; else FORCE_FLAG=false; fi
 
 case $EX_NUM in
 
   1)
     echo "<> Setting up Ex1: PyTorch MNIST Example: Ray + Horovod"
-    setup_shifter_kernel nersc/pytorch:ngc-22.09-v0 /opt/conda/bin/python
-    setup_shifter_hvd_pytorch nersc/pytorch:ngc-22.09-v0
-    ;; #TO-DO: Write a check to see if the correct folders already exist and then skip
+    setup_env nersc/pytorch:ngc-22.09-v0 $FORCE_FLAG
+    setup_shifter_kernel /opt/conda/bin/python
+    setup_shifter_hvd_pytorch
+    shifter_ml_image python -m pip install "ray[air]==2.3.0"
+    ;;
+
+  2)
+    echo "<> Setting up Ex2: Tuning Hyperparameters of a Distributed PyTorch Model with PBT using Ray Train & Tune"
+    setup_env nersc/pytorch:ngc-22.09-v0 $FORCE_FLAG
+    setup_shifter_kernel /opt/conda/bin/python
+    shifter_ml_image python -m pip install "ray[air]==2.3.0"
+    ;;
 
   *)
     echo "Not a valid exercise number..."
@@ -92,3 +123,5 @@ case $EX_NUM in
 esac
 
 echo "<> Setup complete"
+
+#function for doing pip updates etc. - probably wrapper around shifter func with correct setup
