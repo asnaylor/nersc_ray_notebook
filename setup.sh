@@ -11,12 +11,12 @@
 
 ## Parse Args
 usage() {                                 
-  echo "Usage: $0 <Exercise Number> [-f]" 1>&2 
+  echo "Usage: source $0 <Exercise Number> [-f]" 1>&2 
 }
 
 exit_abnormal() { 
   usage
-  exit 1
+  kill -INT $$
 }
 
 if [ $# -lt 1 ]; then
@@ -56,7 +56,7 @@ setup_shifter_kernel(){
     
     #check folder exists
     if [ -d "$JUPYTER_KERNEL_FOLDER" ]; then
-      echo "<!> $JUPYTER_KERNEL is alread setup..."
+      echo "<!> $JUPYTER_KERNEL is already setup..."
       return
     fi
 

@@ -11,4 +11,4 @@ These example [notebooks](notebooks) will cover how different machine learning f
 | 2  | [Tuning Hyperparameters of a Distributed PyTorch Model with PBT using Ray Train & Tune](notebooks/ex_02_pytorch_ray_train_tune.ipynb) | Deploying a Ray cluster via shifter in order to do Distributed Tunning of Hyperparameters. |
 
 > **Note**
-> To setup the environment for each notebook, execute on command line: `./setup.sh <exercise-number>` (e.g `./setup.sh 1a`).
+> To setup the environment for each notebook, execute on command line: `source setup.sh <exercise-number> [-f]` (e.g `source setup.sh 1`).
