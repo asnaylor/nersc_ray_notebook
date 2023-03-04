@@ -58,19 +58,19 @@ setup_env() {
   python -m pip install -r requirements.txt
 }
 
-setup_hvd_pytorch(){
-  if python -m pip freeze | grep -q horovod
-    then  
-      echo "<!> horovod is already setup..."
-      return
-  fi
+# setup_hvd_pytorch(){
+#   if python -m pip freeze | grep -q horovod
+#     then  
+#       echo "<!> horovod is already setup..."
+#       return
+#   fi
   
-  HOROVOD_NCCL_HOME=$NCCL_HOME \
-  HOROVOD_GPU_OPERATIONS=NCCL \
-  HOROVOD_NCCL_LINK=SHARED \
-  HOROVOD_WITH_PYTORCH=1 \
-  python3 -m pip install horovod[pytorch]
-}
+#   HOROVOD_NCCL_HOME=$NCCL_HOME \
+#   HOROVOD_GPU_OPERATIONS=NCCL \
+#   HOROVOD_NCCL_LINK=SHARED \
+#   HOROVOD_WITH_PYTORCH=1 \
+#   python3 -m pip install horovod[pytorch]
+# }
 
 EX_NUM=$1
 if [ "$2" == "--dev" ]; then DEV_FLAG=true; else DEV_FLAG=false; fi
@@ -87,10 +87,10 @@ case $EX_NUM in
     setup_env tensorflow/2.9.0
     ;;
 
-  3)
-    echo "<> Setting up Ex3: PyTorch MNIST Example: Ray + Horovod"
-    setup_env pytorch/1.13.1
-    setup_hvd_pytorch
+  # 3) #current issue with hvd build `horovod.common.exceptions.HorovodInternalError: ncclAllReduce failed: unhandled cuda error`
+  #   echo "<> Setting up Ex3: PyTorch MNIST Example: Ray + Horovod"
+  #   setup_env pytorch/1.13.1
+  #   setup_hvd_pytorch
     ;;
 
   *)
