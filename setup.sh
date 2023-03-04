@@ -67,6 +67,7 @@ setup_hvd_pytorch(){
   
   HOROVOD_NCCL_HOME=$NCCL_HOME \
   HOROVOD_GPU_OPERATIONS=NCCL \
+  HOROVOD_NCCL_LINK=SHARED \
   HOROVOD_WITH_PYTORCH=1 \
   python3 -m pip install horovod[pytorch]
 }
