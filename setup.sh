@@ -34,7 +34,7 @@ setup_env() {
       echo "<!> nersc_cluster_deploy is already setup..."
       return
   fi
-  
+
   if [ "$ML_MODULE" == "pytorch/1.13.1" ]
   then
     echo "<!> Doing temporary patch"
@@ -58,9 +58,7 @@ setup_env() {
   python -m pip install -r requirements.txt
 }
 
-setup_hvd(){
-  ML_FRAMEWORK=$1
-  HVD_OPT=${ML_FRAMEWORK^^}
+setup_hvd_pytorch(){
   if python -m pip freeze | grep -q horovod
     then  
       echo "<!> horovod is already setup..."
@@ -69,8 +67,8 @@ setup_hvd(){
   
   HOROVOD_NCCL_HOME=$NCCL_HOME \
   HOROVOD_GPU_OPERATIONS=NCCL \
-  HOROVOD_WITH_$HVD_OPT=1 \
-  python3 -m pip install horovod[$ML_FRAMEWORK]
+  HOROVOD_WITH_PYTORCH=1 \
+  python3 -m pip install horovod[pytorch]
 }
 
 EX_NUM=$1
@@ -91,7 +89,7 @@ case $EX_NUM in
   3)
     echo "<> Setting up Ex3: PyTorch MNIST Example: Ray + Horovod"
     setup_env pytorch/1.13.1
-    setup_hvd pytorch
+    setup_hvd_pytorch
     ;;
 
   *)
