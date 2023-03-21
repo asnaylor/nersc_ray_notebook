@@ -35,15 +35,6 @@ setup_env() {
       return
   fi
 
-  if [ "$ML_MODULE" == "pytorch/1.13.1" ]
-  then
-    echo "<!> Doing temporary patch"
-    JUPYTER_KERNEL_FOLDER=$HOME/.local/share/jupyter/kernels/pytorch1.13.1
-    mkdir -p $JUPYTER_KERNEL_FOLDER
-    cp .kernel.json $JUPYTER_KERNEL_FOLDER/kernel.json
-    cp .kernel-helper.sh $JUPYTER_KERNEL_FOLDER/kernel-helper.sh
-  fi
-
   echo "<> Install nersc_cluster_deploy"
   if [ "$DEV_FLAG" == "true" ]
   then
@@ -91,7 +82,7 @@ case $EX_NUM in
   #   echo "<> Setting up Ex3: PyTorch MNIST Example: Ray + Horovod"
   #   setup_env pytorch/1.13.1
   #   setup_hvd_pytorch
-    ;;
+  #   ;;
 
   *)
     echo "Not a valid exercise number..."
