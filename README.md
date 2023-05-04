@@ -7,8 +7,8 @@ These example [notebooks](notebooks) will cover how different machine learning f
 
 |     | Notebook | Description |
 | :-- | :----- | :---------- |
-| 1  | [Tuning Hyperparameters of a Distributed PyTorch Model with PBT using Ray Train & Tune](notebooks/ex_01_pytorch_ray_train_tune.ipynb) | Deploying a Ray cluster in order to do Distributed Tunning of Hyperparameters with PyTorch. |
-| 2  | [Tuning Hyperparameters of a Distributed TensorFlow Model using Ray Train & Tune](notebooks/ex_02_tensorflow_ray_train_tune.ipynb) | Deploying a Ray cluster in order to do Distributed Tunning of Hyperparameters with TensorFlow. |
+| 1  | [Tuning Hyperparameters of a Distributed PyTorch Model with PBT using Ray Train & Tune](notebooks/ex_01_pytorch_ray_train_tune.ipynb) | Deploying a Ray cluster via Login Node in order to do Distributed Tunning of Hyperparameters with PyTorch. |
+| 2  | [Tuning Hyperparameters of a Distributed TensorFlow Model using Ray Train & Tune](notebooks/ex_02_tensorflow_ray_train_tune.ipynb) | Deploying a Ray cluster via Jupyter Compute in order to do Distributed Tunning of Hyperparameters with TensorFlow. |
 <!-- | 3  | [PyTorch MNIST Example: Ray + Horovod](notebooks/ex_03_pytorch_ray_hvd.ipynb) | Deploying a Ray cluster in order to run Ray with Horovod. | -->
 
 
